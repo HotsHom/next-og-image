@@ -41,7 +41,7 @@ export default function createHandler(): (
       res.end(image)
     } catch (error) {
       res.setHeader('Content-Type', 'text/html')
-      res.end('<h1>Internal Error</h1><p>Sorry, there was a problem.</p>')
+      res.end('<h1>Internal Error</h1><p>Sorry, there was a problem.</p>'+error)
       console.error(error)
     }
   }
