@@ -10,11 +10,10 @@ export default async function getImage(
   path: string[],
   props: Props,
 ): Promise<Buffer | String | void> {
-  const browser = await puppeteer.launch({
+  const browser = await chrome.puppeteer.launch({
     args: chrome.args,
-    executablePath:
-      process.env.OG_IMAGE_CHROME_EXECUTABLE_PATH ??
-      (await chrome.executablePath),
+    executablePath: await chrome.executablePath,
+    ignoreDefaultArgs: ['--disable-extensions']
   })
 
   const page = await browser.newPage()

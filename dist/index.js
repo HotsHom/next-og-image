@@ -1,11 +1,9 @@
 var path = require('path');
 var chrome = require('chrome-aws-lambda');
-var puppeteer = require('puppeteer-core');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var chrome__default = /*#__PURE__*/_interopDefaultLegacy(chrome);
-var puppeteer__default = /*#__PURE__*/_interopDefaultLegacy(puppeteer);
 
 function getBaseUrl() {
   if (process.env.OG_IMAGE_BASE_URL) {
@@ -40,9 +38,10 @@ function propsToSearchParams(props) {
 
 const width = 1200;
 async function getImage(baseUrl, path, props) {
-  const browser = await puppeteer__default['default'].launch({
+  const browser = await chrome__default['default'].puppeteer.launch({
     args: chrome__default['default'].args,
-    executablePath: process.env.OG_IMAGE_CHROME_EXECUTABLE_PATH ?? (await chrome__default['default'].executablePath)
+    executablePath: await chrome__default['default'].executablePath,
+    ignoreDefaultArgs: ['--disable-extensions']
   });
   const page = await browser.newPage();
   page.setViewport({
