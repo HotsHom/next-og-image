@@ -3,6 +3,7 @@ import ApiRequest from '../types/api-request'
 import getBaseUrl from './get-base-url'
 import getCleanPath from './get-clean-path'
 import getImage from './get-image'
+import chrome from "chrome-aws-lambda";
 
 const YEAR_SECONDS = 31536000
 
@@ -40,8 +41,9 @@ export default function createHandler(): (
 
       res.end(image)
     } catch (error) {
+      let c = await chrome.executablePath
       res.setHeader('Content-Type', 'text/html')
-      res.end('<h1>Internal Error</h1><p>Sorry, there was a problem.</p>'+error)
+      res.end('<h1>Internal Error</h1><p>Sorry, there was a problem.</p>' + error + `<p>${c}</p>`)
       console.error(error)
     }
   }

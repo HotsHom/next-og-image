@@ -10,7 +10,7 @@ export default async function getImage(
   path: string[],
   props: Props,
 ): Promise<Buffer | String | void> {
-  const browser = await chrome.puppeteer.launch({
+  const browser = await puppeteer.launch({
     args: chrome.args,
     executablePath: await chrome.executablePath,
     ignoreDefaultArgs: ['--disable-extensions']

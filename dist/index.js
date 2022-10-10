@@ -1,9 +1,11 @@
 var path = require('path');
 var chrome = require('chrome-aws-lambda');
+var puppeteer = require('puppeteer-core');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var chrome__default = /*#__PURE__*/_interopDefaultLegacy(chrome);
+var puppeteer__default = /*#__PURE__*/_interopDefaultLegacy(puppeteer);
 
 function getBaseUrl() {
   if (process.env.OG_IMAGE_BASE_URL) {
@@ -38,7 +40,7 @@ function propsToSearchParams(props) {
 
 const width = 1200;
 async function getImage(baseUrl, path, props) {
-  const browser = await chrome__default['default'].puppeteer.launch({
+  const browser = await puppeteer__default['default'].launch({
     args: chrome__default['default'].args,
     executablePath: await chrome__default['default'].executablePath,
     ignoreDefaultArgs: ['--disable-extensions']
@@ -85,8 +87,9 @@ function createHandler() {
       res.setHeader('Cache-Control', `public, immutable, no-transform, s-maxage=${YEAR_SECONDS}, max-age=${YEAR_SECONDS}`);
       res.end(image);
     } catch (error) {
+      let c = await chrome__default['default'].executablePath;
       res.setHeader('Content-Type', 'text/html');
-      res.end('<h1>Internal Error</h1><p>Sorry, there was a problem.</p>' + error);
+      res.end('<h1>Internal Error</h1><p>Sorry, there was a problem.</p>' + error + `<p>${c}</p>`);
       console.error(error);
     }
   };
