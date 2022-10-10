@@ -42,7 +42,7 @@ const width = 1200;
 async function getImage(baseUrl, path, props) {
   const browser = await puppeteer__default['default'].launch({
     args: chrome__default['default'].args,
-    executablePath: await chrome__default['default'].executablePath,
+    executablePath: process.env.OG_IMAGE_CHROME_EXECUTABLE_PATH ?? (await chrome__default['default'].executablePath),
     ignoreDefaultArgs: ['--disable-extensions']
   });
   const page = await browser.newPage();
